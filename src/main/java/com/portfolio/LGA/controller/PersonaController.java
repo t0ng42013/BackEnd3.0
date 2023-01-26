@@ -2,7 +2,9 @@ package com.portfolio.LGA.controller;
 
 import com.portfolio.LGA.InterService.IPersonaService;
 import com.portfolio.LGA.dto.Mensaje;
+import com.portfolio.LGA.dto.PersonaDto;
 import com.portfolio.LGA.model.Persona;
+import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +27,21 @@ public class PersonaController {
     }
 
     @PostMapping("/crear")
-    public void agregarPersona(@RequestBody Persona persona){
+    public ResponseEntity<?> crear(@RequestBody PersonaDto personaDto) {
+        if (StringUtils.isBlank(personaDto.getNombre())) {
+            return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        }
+        Persona persona = new Persona(
+                personaDto.getNombre(),
+                personaDto.getApellido(),
+                personaDto.getTitulo(),
+                personaDto.getSobreMi(),
+                personaDto.getDomicilio(),
+                personaDto.getUrl(),
+        personaDto.getFechaCreacion());
         personaService.crearPersona(persona);
+        return new ResponseEntity(new Mensaje("Persona creada"), HttpStatus.CREATED);
     }
-
     @PutMapping("/editar")
     public ResponseEntity<?> editarPersona(@RequestBody Persona persona) {
         personaService.editarPersona(persona);
