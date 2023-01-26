@@ -18,14 +18,15 @@ public class PersonaController {
     private IPersonaService personaService;
 
     @GetMapping("/lista")
+    @ResponseBody
     public ResponseEntity<List<Persona>> verPersonas() {
         List<Persona> personas = personaService.verPersonas();
         return new ResponseEntity(personas, HttpStatus.OK);
     }
 
     @PostMapping("/crear")
-    public void agregarPersona(@RequestBody Persona perso){
-        personaService.crearPersona(perso);
+    public void agregarPersona(@RequestBody Persona persona){
+        personaService.crearPersona(persona);
     }
 
     @PutMapping("/editar")

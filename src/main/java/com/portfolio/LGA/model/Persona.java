@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @Entity
@@ -26,16 +28,20 @@ public class Persona {
     private String sobreMi;
     @Size(max = 100, message = "no cumple la longitud")
     private  String url;
+    @Temporal(TemporalType.DATE)
+    private Date fechaCreacion;
 
     public Persona() {
     }
 
-    public Persona(String nombre, String apellido, String descripcion, String titulo,String sobreMi, String url) {
+    public Persona(String nombre, String apellido, String domicilio, String titulo, String sobreMi, String url, Date fechaCreacion) {
+
         this.nombre = nombre;
         this.apellido = apellido;
-        this.domicilio = descripcion;
+        this.domicilio = domicilio;
         this.titulo = titulo;
         this.sobreMi = sobreMi;
         this.url = url;
+        this.fechaCreacion = fechaCreacion;
     }
 }
