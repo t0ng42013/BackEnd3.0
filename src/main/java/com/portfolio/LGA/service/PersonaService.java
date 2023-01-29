@@ -35,13 +35,13 @@ public class PersonaService implements IPersonaService {
 
     @Override
     public Persona editarPersona(Persona persona) {
-        Persona personaEditada = personaRepository.findById(persona.getId()).orElse(null);
-        persona.setNombre(persona.getNombre());
-        persona.setApellido(persona.getApellido());
-        persona.setTitulo(persona.getTitulo());
-        persona.setDomicilio(persona.getDomicilio());
-        persona.setSobreMi(persona.getSobreMi());
-        persona.setUrl(persona.getUrl());
+        Persona personas = personaRepository.findById(persona.getId()).orElse(null);
+        personas.setNombre(persona.getNombre());
+        personas.setApellido(persona.getApellido());
+        personas.setTitulo(persona.getTitulo());
+        personas.setDomicilio(persona.getDomicilio());
+        personas.setSobreMi(persona.getSobreMi());
+        personas.setUrl(persona.getUrl());
         return personaRepository.save(personaEditada);
     }
 }
