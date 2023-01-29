@@ -35,14 +35,14 @@ public class ExperienciaService implements IExperienciaService {
     @Override
     public Experiencia editarExperiencia(Experiencia experiencia) {
         Experiencia experiencias = experienciaRepository.findById(experiencia.getId()).orElse(null);
-        experiencia.setNombre(experiencia.getNombre());
-        experiencia.setInicio(experiencia.getInicio());
-        experiencia.setFin(experiencia.getFin());
-        experiencia.setTrabajo(true);
-        experiencia.setTarea1(experiencia.getTarea1());
-        experiencia.setTarea2(experiencia.getTarea2());
-        experiencia.setTarea3(experiencia.getTarea3());
-        experiencia.setTarea4(experiencia.getTarea4());
+        experiencias.setNombre(experiencia.getNombre());
+        experiencias.setInicio(experiencia.getInicio());
+        experiencias.setFin(experiencia.getFin());
+        experiencias.setTrabajo(true);
+        experiencias.setTarea1(experiencia.getTarea1());
+        experiencias.setTarea2(experiencia.getTarea2());
+        experiencias.setTarea3(experiencia.getTarea3());
+        experiencias.setTarea4(experiencia.getTarea4());
         return experienciaRepository.save(experiencias);
     }
 }
