@@ -35,10 +35,10 @@ public class ProyectoService implements IProyectoService {
     @Override
     public Proyecto editarProyecto(Proyecto proyecto) {
         Proyecto proyectos = proyectoRepository.findById(proyecto.getId()).orElse(null);
-        proyecto.setNombre(proyecto.getNombre());
-        proyecto.setDescripcion(proyecto.getDescripcion());
-        proyecto.setImgUrl(proyecto.getImgUrl());
-        proyecto.setVariableI(proyecto.getVariableI());
+        proyectos.setNombre(proyecto.getNombre());
+        proyectos.setDescripcion(proyecto.getDescripcion());
+        proyectos.setImgUrl(proyecto.getImgUrl());
+        proyectos.setVariableI(proyecto.getVariableI());
 
         return proyectoRepository.save(proyectos);
     }
