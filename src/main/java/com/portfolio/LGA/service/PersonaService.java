@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -34,6 +35,7 @@ public class PersonaService implements IPersonaService {
     public void crearPersona(PersonaDto personaDto) {
         Persona persona = modelMapper.map(personaDto, Persona.class);
         personaRepository.save(persona);
+        persona.setLastUpdated(LocalDateTime.now());
     }
 
     @Override
@@ -47,22 +49,11 @@ public class PersonaService implements IPersonaService {
     }
 
     @Override
-<<<<<<< HEAD
+
     public Persona editarPersona(Long id, PersonaDto personaDto) {
         Persona persona = personaRepository.findById(id).orElseThrow(() -> new PersonaNotFoundException(id));
         modelMapper.map(personaDto, persona);
+        persona.setLastUpdated(LocalDateTime.now());
         return personaRepository.save(persona);
-=======
-    public Persona editarPersona(Persona persona) {
-        Persona personas = personaRepository.findById(persona.getId()).orElse(null);
-        personas.setNombre(persona.getNombre());
-        personas.setApellido(persona.getApellido());
-        personas.setTitulo(persona.getTitulo());
-        personas.setDomicilio(persona.getDomicilio());
-        personas.setSobreMi(persona.getSobreMi());
-        personas.setUrl(persona.getUrl());
-        return personaRepository.save(personas);
->>>>>>> d3ee361917a95698a9fe65813feefa3f77315eba
     }
-
 }
