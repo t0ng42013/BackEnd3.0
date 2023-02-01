@@ -1,6 +1,7 @@
 package com.portfolio.LGA.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,13 +26,13 @@ public class Educacion {
     private String titulo;
 
 
-    public Educacion() {
-    }
-
-    public Educacion( String instituto, Date inicio, Date fin, String titulo) {
+    public Educacion(String instituto, Date inicio, Date fin, String titulo) {
         this.instituto = instituto;
         this.inicio = inicio;
         this.fin = fin;
         this.titulo = titulo;
+    }
+
+    public Educacion() {
     }
 }

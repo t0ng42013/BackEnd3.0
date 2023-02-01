@@ -1,13 +1,14 @@
 package com.portfolio.LGA.InterService;
 
+import com.portfolio.LGA.dto.PersonaDto;
 import com.portfolio.LGA.model.Persona;
 
 import java.util.List;
 
 public interface IPersonaService {
-    public List<Persona> verPersonas();
-    public void crearPersona(Persona persona);
+    List<PersonaDto> verPersonas();
+    public void crearPersona(PersonaDto personaDto);
     public void borrarPersona(Long id);
     public Persona buscarPersona(Long id);
-    public Persona editarPersona(Persona persona);
+    public Persona editarPersona(Long id, PersonaDto personaDto);
 }

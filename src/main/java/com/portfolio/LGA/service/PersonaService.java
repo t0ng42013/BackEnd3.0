@@ -1,25 +1,38 @@
 package com.portfolio.LGA.service;
 
 import com.portfolio.LGA.InterService.IPersonaService;
+import com.portfolio.LGA.dto.PersonaDto;
+import com.portfolio.LGA.dto.PersonaNotFoundException;
 import com.portfolio.LGA.model.Persona;
 import com.portfolio.LGA.repository.PersonaRepository;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
 public class PersonaService implements IPersonaService {
+    private final PersonaRepository personaRepository;
+    private final ModelMapper modelMapper;
     @Autowired
-    public PersonaRepository personaRepository;
-
+    public PersonaService(PersonaRepository personaRepository, ModelMapper modelMapper) {
+    this.personaRepository = personaRepository;
+    this.modelMapper = modelMapper;
+    }
     @Override
-    public List<Persona> verPersonas() {
-        return personaRepository.findAll();
+    public List<PersonaDto> verPersonas() {
+        List<Persona> personas = personaRepository.findAll();
+        Type listType = new TypeToken<List<PersonaDto>>(){}.getType();
+        List<PersonaDto> personaDTOs = modelMapper.map(personas, listType);
+        return personaDTOs;
     }
 
     @Override
-    public void crearPersona(Persona persona) {
+    public void crearPersona(PersonaDto personaDto) {
+        Persona persona = modelMapper.map(personaDto, Persona.class);
         personaRepository.save(persona);
     }
 
@@ -34,14 +47,10 @@ public class PersonaService implements IPersonaService {
     }
 
     @Override
-    public Persona editarPersona(Persona persona) {
-        Persona personaEditada = personaRepository.findById(persona.getId()).orElse(null);
-        persona.setNombre(persona.getNombre());
-        persona.setApellido(persona.getApellido());
-        persona.setTitulo(persona.getTitulo());
-        persona.setDomicilio(persona.getDomicilio());
-        persona.setSobreMi(persona.getSobreMi());
-        persona.setUrl(persona.getUrl());
-        return personaRepository.save(personaEditada);
+    public Persona editarPersona(Long id, PersonaDto personaDto) {
+        Persona persona = personaRepository.findById(id).orElseThrow(() -> new PersonaNotFoundException(id));
+        modelMapper.map(personaDto, persona);
+        return personaRepository.save(persona);
     }
+
 }

@@ -1,5 +1,6 @@
 package com.portfolio.LGA.InterService;
 
+import com.portfolio.LGA.dto.ExperienciaDto;
 import com.portfolio.LGA.model.Experiencia;
 
 import java.util.List;

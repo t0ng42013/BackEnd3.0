@@ -14,13 +14,13 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/login")
-                        .allowedOrigins("https://lga-portfolio.web.app")
+                        .allowedOrigins("http://localhost:4200")
                         .allowedMethods("*")
                         .exposedHeaders("*");
 
 
                 registry.addMapping("/api/**")
-                        .allowedOrigins("https://lga-portfolio.web.app")
+                        .allowedOrigins("http://localhost:4200")
                         .allowedMethods("*");
             }
 

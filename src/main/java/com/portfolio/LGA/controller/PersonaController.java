@@ -2,7 +2,9 @@ package com.portfolio.LGA.controller;
 
 import com.portfolio.LGA.InterService.IPersonaService;
 import com.portfolio.LGA.dto.Mensaje;
+import com.portfolio.LGA.dto.PersonaDto;
 import com.portfolio.LGA.model.Persona;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,25 +16,33 @@ import java.util.List;
 @RequestMapping("/api/persona")
 @CrossOrigin(origins = {"https://lga-portfolio.web.app","http://localhost:4200"})
 public class PersonaController {
+    private final IPersonaService personaService;
+    private final ModelMapper modelMapper;
     @Autowired
-    private IPersonaService personaService;
+    private PersonaController(IPersonaService personaService, ModelMapper modelMapper) {
+        this.personaService = personaService;
+        this.modelMapper = modelMapper;
+    };
 
     @GetMapping("/lista")
     @ResponseBody
-    public ResponseEntity<List<Persona>> verPersonas() {
-        List<Persona> personas = personaService.verPersonas();
-        return new ResponseEntity(personas, HttpStatus.OK);
+    public ResponseEntity<List<PersonaDto>> verPersonas() {
+        List<PersonaDto> personasDtos = personaService.verPersonas();
+        return new ResponseEntity(personasDtos, HttpStatus.OK);
     }
 
     @PostMapping("/crear")
-    public void agregarPersona(@RequestBody Persona persona){
-        personaService.crearPersona(persona);
+    public ResponseEntity<PersonaDto> crearPersona(@RequestBody PersonaDto personaDto) {
+        personaService.crearPersona(personaDto);
+        return new ResponseEntity(new Mensaje("Persona Creada"), HttpStatus.CREATED);
     }
 
-    @PutMapping("/editar")
-    public ResponseEntity<?> editarPersona(@RequestBody Persona persona) {
-        personaService.editarPersona(persona);
-        return new ResponseEntity(new Mensaje("Persona editada"), HttpStatus.OK);
+    @PutMapping("/editar/{id}")
+    public ResponseEntity<PersonaDto> editarPersona(@PathVariable Long id,@RequestBody PersonaDto personaDto) {
+       Persona persona = personaService.editarPersona(id,personaDto);
+       PersonaDto dto = modelMapper.map(persona, PersonaDto.class);
+
+       return new ResponseEntity(new Mensaje("Persona editada"), HttpStatus.OK);
     }
 
     @GetMapping("/buscar/{id}")
@@ -44,7 +54,8 @@ public class PersonaController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void borrarPersona(@PathVariable Long id){
+    public ResponseEntity<Void> borrarPersona(@PathVariable Long id){
         personaService.borrarPersona(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
