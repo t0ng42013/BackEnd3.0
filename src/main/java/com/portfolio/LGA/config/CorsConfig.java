@@ -14,7 +14,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/login")
-                        .allowedOrigins("https://portfolio3-2.onrender.com")
+                        .allowedOrigins("*")
                         .allowedMethods("*")
                         .exposedHeaders("*");
 
