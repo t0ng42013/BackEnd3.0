@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -25,5 +26,5 @@ public class PersonaDto implements Serializable {
     private String sobreMi;
 
     private  String url;
-    private Date fechaCreacion;
+    private LocalDateTime lastUpdated;
 }
