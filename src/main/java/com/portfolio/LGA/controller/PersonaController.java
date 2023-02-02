@@ -37,11 +37,9 @@ public class PersonaController {
         return new ResponseEntity(new Mensaje("Persona Creada"), HttpStatus.CREATED);
     }
 
-    @PutMapping("/editar/{id}")
-    public ResponseEntity<PersonaDto> editarPersona(@PathVariable Long id,@RequestBody PersonaDto personaDto) {
-       Persona persona = personaService.editarPersona(id,personaDto);
-       PersonaDto dto = modelMapper.map(persona, PersonaDto.class);
-
+    @PutMapping("/editar")
+    public ResponseEntity<PersonaDto> editarPersona(@RequestBody PersonaDto personaDto) {
+        personaService.editarPersona(personaDto);
        return new ResponseEntity(new Mensaje("Persona editada"), HttpStatus.OK);
     }
 

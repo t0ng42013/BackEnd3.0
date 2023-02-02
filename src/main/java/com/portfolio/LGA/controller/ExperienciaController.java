@@ -1,5 +1,6 @@
 package com.portfolio.LGA.controller;
 
+import com.portfolio.LGA.dto.ExperienciaDto;
 import com.portfolio.LGA.dto.Mensaje;
 import com.portfolio.LGA.model.Experiencia;
 import com.portfolio.LGA.service.ExperienciaService;
@@ -25,13 +26,15 @@ public class ExperienciaController {
     }
 
     @PostMapping("/crear")
-    public void crearExperiencia(@RequestBody Experiencia experiencia){
-        experienciaService.crearExperiencia(experiencia);
+    public ResponseEntity<ExperienciaDto> crearExperiencia(@RequestBody ExperienciaDto experienciaDto){
+        experienciaService.crearExperiencia(experienciaDto);
+        return new ResponseEntity(new Mensaje("Experiencia Creada"), HttpStatus.CREATED);
     }
 
     @PutMapping("/editar")
-    public ResponseEntity<?> editarExperiencia(@RequestBody Experiencia experiencia) {
-        experienciaService.editarExperiencia(experiencia);
+    public ResponseEntity<ExperienciaDto> editarExperiencia(@RequestBody ExperienciaDto experienciaDto) {
+        experienciaService.editarExperiencia(experienciaDto);
+
         return new ResponseEntity(new Mensaje("Experiencia editada"), HttpStatus.OK);
     }
 

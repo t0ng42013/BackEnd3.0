@@ -20,7 +20,7 @@ public class CorsConfig {
 
 
                 registry.addMapping("/api/**")
-                        .allowedOrigins("https://portfolio3-2.onrender.com")
+                        .allowedOrigins("*")
                         .allowedMethods("*");
             }
 

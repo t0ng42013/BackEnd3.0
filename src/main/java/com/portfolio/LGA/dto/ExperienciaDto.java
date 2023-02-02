@@ -14,6 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExperienciaDto implements Serializable {
+    Long id;
     @NotBlank
     private String nombre;
     private boolean trabajo;

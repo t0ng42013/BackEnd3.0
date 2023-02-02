@@ -50,8 +50,8 @@ public class PersonaService implements IPersonaService {
 
     @Override
 
-    public Persona editarPersona(Long id, PersonaDto personaDto) {
-        Persona persona = personaRepository.findById(id).orElseThrow(() -> new PersonaNotFoundException(id));
+    public Persona editarPersona(PersonaDto personaDto) {
+        Persona persona = personaRepository.findById(personaDto.getId()).orElseThrow(() -> new PersonaNotFoundException(personaDto.getId()));
         modelMapper.map(personaDto, persona);
         persona.setLastUpdated(LocalDateTime.now());
         return personaRepository.save(persona);
