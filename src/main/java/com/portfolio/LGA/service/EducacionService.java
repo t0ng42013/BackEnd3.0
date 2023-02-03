@@ -7,14 +7,12 @@ import com.portfolio.LGA.dto.PersonaNotFoundException;
 import com.portfolio.LGA.model.Educacion;
 import com.portfolio.LGA.model.Persona;
 import com.portfolio.LGA.repository.EducacionRepository;
-import com.portfolio.LGA.repository.PersonaRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
-import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -28,8 +26,11 @@ public class EducacionService implements IEducacionService {
     }
 
     @Override
-    public List<Educacion> verEducacion() {
-       return educacionRepository.findAll();
+    public List<EducacionDto> verEducacion() {
+        List<Educacion> educacions = educacionRepository.findAll();
+        Type listType = new TypeToken<List<EducacionDto>>(){}.getType();
+        List<EducacionDto> educacionDtos = modelMapper.map(educacions, listType);
+        return educacionDtos;
     }
 
     @Override
@@ -49,8 +50,8 @@ public class EducacionService implements IEducacionService {
     }
 
     @Override
-    public Educacion editarEducacion(Long id,EducacionDto educacionDto) {
-        Educacion educacion = educacionRepository.findById(id).orElseThrow(() -> new PersonaNotFoundException(id));
+    public Educacion editarEducacion(EducacionDto educacionDto) {
+        Educacion educacion = educacionRepository.findById(educacionDto.getId()).orElse(null);
         modelMapper.map(educacionDto, educacion);
         return educacionRepository.save(educacion);
     }

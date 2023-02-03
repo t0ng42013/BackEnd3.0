@@ -5,15 +5,17 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 public class Proyecto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Size(max = 50, message = "no cumple la longitud")
     private String nombre;
@@ -27,9 +29,6 @@ public class Proyecto {
     @Min(0)
     @Max(15)
     private int variableI;
-
-    public Proyecto() {
-    }
 
     public Proyecto(String nombre, String descripcion, String imgUrl, int variableI) {
         this.nombre = nombre;

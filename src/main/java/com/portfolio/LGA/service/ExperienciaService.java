@@ -2,30 +2,31 @@ package com.portfolio.LGA.service;
 
 import com.portfolio.LGA.InterService.IExperienciaService;
 import com.portfolio.LGA.dto.ExperienciaDto;
+import com.portfolio.LGA.dto.PersonaNotFoundException;
 import com.portfolio.LGA.model.Experiencia;
 import com.portfolio.LGA.repository.ExperienciaRepository;
-import com.portfolio.LGA.repository.PersonaRepository;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
 public class ExperienciaService implements IExperienciaService {
     private final ExperienciaRepository experienciaRepository;
     private final ModelMapper modelMapper;
-
+    @Autowired
     public ExperienciaService(ExperienciaRepository experienciaRepository, ModelMapper modelMapper) {
         this.experienciaRepository = experienciaRepository;
         this.modelMapper = modelMapper;
     }
-
-    @Autowired
-
     @Override
-    public List<Experiencia> verExperiencia() {
-        return experienciaRepository.findAll();
+    public List<ExperienciaDto> verExperiencia() {
+        List<Experiencia> experiencias = experienciaRepository.findAll();
+        Type listType = new TypeToken<List<ExperienciaDto>>(){}.getType();
+        List<ExperienciaDto> experienciaDTOs = modelMapper.map(experiencias, listType);
+        return experienciaDTOs;
     }
 
     @Override
@@ -46,7 +47,7 @@ public class ExperienciaService implements IExperienciaService {
 
     @Override
     public Experiencia editarExperiencia(ExperienciaDto experienciaDto) {
-        Experiencia experiencia = experienciaRepository.findById(experienciaDto.getId()).orElse(null);
+        Experiencia experiencia = experienciaRepository.findById(experienciaDto.getId()).orElseThrow(() -> new PersonaNotFoundException(experienciaDto.getId()));
         modelMapper.map(experienciaDto, experiencia);
         return experienciaRepository.save(experiencia);
     }

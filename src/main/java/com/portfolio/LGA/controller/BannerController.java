@@ -1,8 +1,11 @@
 package com.portfolio.LGA.controller;
 
 import com.portfolio.LGA.InterService.IBannerService;
+import com.portfolio.LGA.dto.BannerDto;
 import com.portfolio.LGA.dto.Mensaje;
 import com.portfolio.LGA.model.Banner;
+import io.micrometer.common.util.StringUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,25 +15,35 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/banner")
-@CrossOrigin(origins = {"https://lga-portfolio.web.app","http://localhost:4200"})
+@CrossOrigin(origins = {"https://lga-portfolio.web.app", "http://localhost:4200"})
 public class BannerController {
+    private final IBannerService bannerService;
+    private final ModelMapper modelMapper;
+
     @Autowired
-    private IBannerService bannerService;
+    public BannerController(IBannerService bannerService, ModelMapper modelMapper) {
+        this.bannerService = bannerService;
+        this.modelMapper = modelMapper;
+    }
 
     @GetMapping("/lista")
-    public ResponseEntity<List<Banner>> verBanner() {
-        List<Banner> banners = bannerService.verBanner();
-        return new ResponseEntity(banners, HttpStatus.OK);
+    public ResponseEntity<List<BannerDto>> verBanner() {
+        List<BannerDto> bannersDtos = bannerService.verBanner();
+        return new ResponseEntity(bannersDtos, HttpStatus.OK);
     }
 
     @PostMapping("/crear")
-    public void agregarBanner(@RequestBody Banner banner){
-        bannerService.crearBanner(banner);
+    public ResponseEntity<BannerDto> agregarBanner(@RequestBody BannerDto bannerDto) {
+        if (StringUtils.isBlank(bannerDto.getNombreUrl())) {
+            return new ResponseEntity(new Mensaje("El campo es obligatorio"), HttpStatus.BAD_REQUEST);
+        }
+        bannerService.crearBanner(bannerDto);
+        return new ResponseEntity(new Mensaje("Banner creado"), HttpStatus.CREATED);
     }
 
     @PutMapping("/editar")
-    public ResponseEntity<?> editarBanner(@RequestBody Banner banner) {
-        bannerService.editarBanner(banner);
+    public ResponseEntity<BannerDto> editarBanner(@RequestBody BannerDto bannerDto) {
+        bannerService.editarBanner(bannerDto);
         return new ResponseEntity(new Mensaje("Banner editado"), HttpStatus.OK);
     }
 
@@ -43,7 +56,8 @@ public class BannerController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void borrarBanner(@PathVariable Long id){
+    public ResponseEntity<Void> borrarBanner(@PathVariable Long id) {
         bannerService.borrarBanner(id);
+        return new ResponseEntity(new Mensaje("Banner borrado"), HttpStatus.OK);
     }
 }

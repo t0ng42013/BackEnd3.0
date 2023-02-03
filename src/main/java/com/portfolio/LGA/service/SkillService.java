@@ -1,25 +1,37 @@
 package com.portfolio.LGA.service;
 
 import com.portfolio.LGA.InterService.ISkillService;
+import com.portfolio.LGA.dto.SkillDto;
 import com.portfolio.LGA.model.Skill;
 import com.portfolio.LGA.repository.SkillRepository;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
 public class SkillService implements ISkillService {
+    private final SkillRepository skillRepository;
+    private final ModelMapper modelMapper;
     @Autowired
-    public SkillRepository skillRepository;
-
+    public SkillService(SkillRepository skillRepository, ModelMapper modelMapper) {
+        this.skillRepository = skillRepository;
+        this.modelMapper = modelMapper;
+    }
     @Override
-    public List<Skill> verSkill() {
-        return skillRepository.findAll();
+    public List<SkillDto> verSkill() {
+       List<Skill> skill =skillRepository.findAll();
+       Type listType = new TypeToken<List<SkillDto>>() {}.getType();
+        List<SkillDto> skillDto = modelMapper.map(skill, listType);
+        return skillDto;
     }
 
     @Override
-    public void crearSkill(Skill skill) {
+    public void crearSkill(SkillDto skillDto) {
+        Skill skill = modelMapper.map(skillDto, Skill.class);
         skillRepository.save(skill);
     }
 
@@ -34,10 +46,9 @@ public class SkillService implements ISkillService {
     }
 
     @Override
-    public Skill editaSkill(Skill skill) {
-        Skill skills = skillRepository.findById(skill.getId()).orElse(null);
-        skills.setNombre(skill.getNombre());
-        skills.setPorcentaje(skill.getPorcentaje());
-        return skillRepository.save(skills);
+    public Skill editaSkill(SkillDto skillDto) {
+    Skill skill = skillRepository.findById(skillDto.getId()).orElse(null);
+    modelMapper.map(skillDto, skill);
+    return skillRepository.save(skill);
     }
 }

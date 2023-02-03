@@ -6,13 +6,10 @@ import com.portfolio.LGA.model.Experiencia;
 import java.util.List;
 
 public interface IExperienciaService {
-    public List<Experiencia> verExperiencia();
-
+    List<ExperienciaDto> verExperiencia();
     public void crearExperiencia(ExperienciaDto experienciaDto);
-
     public void borrarExperiencia(Long id);
-
     public Experiencia buscarExperiencia(Long id);
-
     public Experiencia editarExperiencia(ExperienciaDto experienciaDto);
 }
+

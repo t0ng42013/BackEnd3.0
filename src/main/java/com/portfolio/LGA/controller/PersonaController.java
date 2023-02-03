@@ -4,6 +4,7 @@ import com.portfolio.LGA.InterService.IPersonaService;
 import com.portfolio.LGA.dto.Mensaje;
 import com.portfolio.LGA.dto.PersonaDto;
 import com.portfolio.LGA.model.Persona;
+import io.micrometer.common.util.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,9 @@ public class PersonaController {
 
     @PostMapping("/crear")
     public ResponseEntity<PersonaDto> crearPersona(@RequestBody PersonaDto personaDto) {
+        if (StringUtils.isBlank(personaDto.getNombre())) {
+            return new ResponseEntity(new Mensaje("El campo es obligatorio"), HttpStatus.BAD_REQUEST);
+        }
         personaService.crearPersona(personaDto);
         return new ResponseEntity(new Mensaje("Persona Creada"), HttpStatus.CREATED);
     }

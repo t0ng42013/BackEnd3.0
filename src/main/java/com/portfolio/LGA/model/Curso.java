@@ -3,6 +3,7 @@ package com.portfolio.LGA.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Date;
@@ -10,11 +11,11 @@ import java.sql.Date;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 public class Curso {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
+    private Long id;
 
     @Size(max = 50, message = "no cumple la longitud")
     private String instituto;
@@ -25,9 +26,6 @@ public class Curso {
     @Lob
     @Size(max = 5000, message = "no cumple la longitud")
     private String titulo;
-
-    public Curso() {
-    }
 
     public Curso( String instituto, Date inicio, Date fin, String titulo) {
         this.instituto = instituto;

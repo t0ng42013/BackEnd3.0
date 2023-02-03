@@ -3,50 +3,37 @@ package com.portfolio.LGA.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.sql.Date;
-
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Experiencia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Size(max = 50, message = "no cumple la longitud")
     private String nombre;
-    @Size(max = 50, message = "no cumple la longitud")
-    private boolean trabajo;
-    @Temporal(TemporalType.DATE)
-    private Date inicio;
-    @Temporal(TemporalType.DATE)
-    private Date fin;
     @Lob
     @Size(max = 5000, message = "no cumple la longitud")
-    private String tarea1;
+    private String descripcion1;
     @Lob
     @Size(max = 5000, message = "no cumple la longitud")
-    private String tarea2;
+    private String descripcion2;
     @Lob
     @Size(max = 5000, message = "no cumple la longitud")
-    private String tarea3;
+    private String descripcion3;
     @Lob
     @Size(max = 5000, message = "no cumple la longitud")
-    private String tarea4;
+    private String descripcion4;
 
-    public Experiencia(String nombre, boolean trabajo, Date inicio, Date fin, String tarea1, String tarea2, String tarea3, String tarea4) {
+    public Experiencia(String nombre, String descripcion1, String descripcion2, String descripcion3, String descripcion4) {
         this.nombre = nombre;
-        this.trabajo = trabajo;
-        this.inicio = inicio;
-        this.fin = fin;
-        this.tarea1 = tarea1;
-        this.tarea2 = tarea2;
-        this.tarea3 = tarea3;
-        this.tarea4 = tarea4;
-    }
-
-    public Experiencia() {
+        this.descripcion1 = descripcion1;
+        this.descripcion2 = descripcion2;
+        this.descripcion3 = descripcion3;
+        this.descripcion4 = descripcion4;
     }
 }

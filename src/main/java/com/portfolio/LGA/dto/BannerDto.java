@@ -12,5 +12,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BannerDto implements Serializable {
+    private Long id;
     private String nombreUrl;
 }

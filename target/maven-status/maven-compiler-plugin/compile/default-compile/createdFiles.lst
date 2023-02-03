@@ -4,7 +4,9 @@ com\portfolio\LGA\repository\SkillRepository.class
 com\portfolio\LGA\LgaApplication.class
 com\portfolio\LGA\config\CorsConfig.class
 com\portfolio\LGA\repository\UsuarioRepository.class
+com\portfolio\LGA\dto\PersonaNotFoundException.class
 com\portfolio\LGA\security\WebSecurityConfig.class
+com\portfolio\LGA\service\PersonaService$1.class
 com\portfolio\LGA\security\UserDetailsImpl.class
 com\portfolio\LGA\controller\ExperienciaController.class
 com\portfolio\LGA\InterService\ICursoService.class

@@ -15,7 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PersonaDto implements Serializable {
-    private long id;
+    private Long id;
     @NotBlank
     private String nombre;
     @NotBlank

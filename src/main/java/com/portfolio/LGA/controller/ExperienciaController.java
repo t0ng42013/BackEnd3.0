@@ -1,9 +1,11 @@
 package com.portfolio.LGA.controller;
 
+import com.portfolio.LGA.InterService.IExperienciaService;
 import com.portfolio.LGA.dto.ExperienciaDto;
 import com.portfolio.LGA.dto.Mensaje;
 import com.portfolio.LGA.model.Experiencia;
-import com.portfolio.LGA.service.ExperienciaService;
+import io.micrometer.common.util.StringUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,21 +14,30 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/experiencia")
-@CrossOrigin(origins = {"https://lga-portfolio.web.app/","http://localhost:4200"})
+@RequestMapping("/api/exp")
+@CrossOrigin(origins = {"https://lga-portfolio.web.app","http://localhost:4200"})
 public class ExperienciaController {
-    @Autowired
-    private ExperienciaService experienciaService;
+    private final IExperienciaService experienciaService;
+    private final ModelMapper modelMapper;
 
+    @Autowired
+    private ExperienciaController(IExperienciaService experienciaService, ModelMapper modelMapper) {
+        this.experienciaService = experienciaService;
+        this.modelMapper = modelMapper;
+    };
 
     @GetMapping("/lista")
-    public ResponseEntity<List<Experiencia>> verExperiencia() {
-        List<Experiencia> experiencias = experienciaService.verExperiencia();
-        return new ResponseEntity(experiencias, HttpStatus.OK);
+    @ResponseBody
+    public ResponseEntity<List<ExperienciaDto>> verExperiencia() {
+        List<ExperienciaDto> experienciaDtos = experienciaService.verExperiencia();
+        return new ResponseEntity(experienciaDtos, HttpStatus.OK);
     }
 
     @PostMapping("/crear")
-    public ResponseEntity<ExperienciaDto> crearExperiencia(@RequestBody ExperienciaDto experienciaDto){
+    public ResponseEntity<ExperienciaDto> crearExperiencia(@RequestBody ExperienciaDto experienciaDto) {
+        if (StringUtils.isBlank(experienciaDto.getNombre())) {
+            return new ResponseEntity(new Mensaje("El campo es obligatorio"), HttpStatus.BAD_REQUEST);
+        }
         experienciaService.crearExperiencia(experienciaDto);
         return new ResponseEntity(new Mensaje("Experiencia Creada"), HttpStatus.CREATED);
     }
@@ -34,7 +45,6 @@ public class ExperienciaController {
     @PutMapping("/editar")
     public ResponseEntity<ExperienciaDto> editarExperiencia(@RequestBody ExperienciaDto experienciaDto) {
         experienciaService.editarExperiencia(experienciaDto);
-
         return new ResponseEntity(new Mensaje("Experiencia editada"), HttpStatus.OK);
     }
 
@@ -47,7 +57,8 @@ public class ExperienciaController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void borrarExperiencia(@PathVariable Long id){
+    public ResponseEntity<Void> borrarExperiencia(@PathVariable Long id) {
         experienciaService.borrarExperiencia(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -1,24 +1,40 @@
 package com.portfolio.LGA.service;
 
 import com.portfolio.LGA.InterService.ICursoService;
+import com.portfolio.LGA.dto.CursoDto;
 import com.portfolio.LGA.model.Curso;
 import com.portfolio.LGA.repository.CursoRepository;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
 public class CursoService implements ICursoService {
+    private final CursoRepository cursoRepository;
+    private final ModelMapper modelMapper;
+
     @Autowired
-    public CursoRepository cursoRepository;
-    @Override
-    public List<Curso> verCurso() {
-        return cursoRepository.findAll();
+    public CursoService(CursoRepository cursoRepository, ModelMapper modelMapper) {
+        this.cursoRepository = cursoRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
-    public void crearCurso(Curso curso) {
+    public List<CursoDto> verCurso() {
+        List<Curso> cursos = cursoRepository.findAll();
+        Type listType = new TypeToken<List<CursoDto>>() {
+        }.getType();
+        List<CursoDto> cursoDtos = modelMapper.map(cursos, listType);
+        return cursoDtos;
+    }
+
+    @Override
+    public void crearCurso(CursoDto cursoDto) {
+        Curso curso = modelMapper.map(cursoDto, Curso.class);
         cursoRepository.save(curso);
     }
 
@@ -33,13 +49,9 @@ public class CursoService implements ICursoService {
     }
 
     @Override
-    public Curso editarCurso(Curso curso) {
-        Curso cursos = cursoRepository.findById(curso.getId()).orElse(null);
-        cursos.setInstituto(curso.getInstituto());
-        cursos.setInicio(curso.getInicio());
-        cursos.setFin(curso.getFin());
-        cursos.setTitulo(curso.getTitulo());
-
+    public Curso editarCurso(CursoDto cursoDto) {
+        Curso cursos = cursoRepository.findById(cursoDto.getId()).orElse(null);
+       modelMapper.map(cursoDto,cursos);
         return cursoRepository.save(cursos);
     }
 }

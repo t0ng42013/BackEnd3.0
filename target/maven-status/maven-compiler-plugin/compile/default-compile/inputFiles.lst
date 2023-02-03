@@ -37,6 +37,7 @@ C:\Users\Tonga\Documents\LGA\src\main\java\com\portfolio\LGA\security\UserDetail
 C:\Users\Tonga\Documents\LGA\src\main\java\com\portfolio\LGA\repository\BannerRepository.java
 C:\Users\Tonga\Documents\LGA\src\main\java\com\portfolio\LGA\controller\SkillController.java
 C:\Users\Tonga\Documents\LGA\src\main\java\com\portfolio\LGA\LgaApplication.java
+C:\Users\Tonga\Documents\LGA\src\main\java\com\portfolio\LGA\dto\PersonaNotFoundException.java
 C:\Users\Tonga\Documents\LGA\src\main\java\com\portfolio\LGA\InterService\IExperienciaService.java
 C:\Users\Tonga\Documents\LGA\src\main\java\com\portfolio\LGA\InterService\ICursoService.java
 C:\Users\Tonga\Documents\LGA\src\main\java\com\portfolio\LGA\repository\ExperienciaRepository.java

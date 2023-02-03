@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -17,11 +16,8 @@ public class ExperienciaDto implements Serializable {
     Long id;
     @NotBlank
     private String nombre;
-    private boolean trabajo;
-    private Date inicio;
-    private Date fin;
-    private String tarea1;
-    private String tarea2;
-    private String tarea3;
-    private String tarea4;
+    private String descripcion1;
+    private String descripcion2;
+    private String descripcion3;
+    private String descripcion4;
 }

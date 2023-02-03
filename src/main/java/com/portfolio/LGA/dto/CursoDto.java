@@ -14,6 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CursoDto implements Serializable {
+    private Long id;
     @NotBlank
     private String instituto;
     private Date inicio;

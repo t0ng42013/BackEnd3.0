@@ -6,11 +6,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,9 +24,6 @@ public class Usuario {
     @Size(max = 255, message = "no cumple la longitud")
     private String password;
 
-
-    public Usuario() {
-    }
 
     public Usuario(String nombre, String email, String password) {
         this.nombre = nombre;

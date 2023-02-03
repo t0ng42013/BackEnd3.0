@@ -8,11 +8,13 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Skill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,9 +25,6 @@ public class Skill {
     @Min(0)
     @Max(100)
     private int porcentaje;
-
-    public Skill() {
-    }
 
     public Skill(String nombre, int porcentaje) {
         this.nombre = nombre;

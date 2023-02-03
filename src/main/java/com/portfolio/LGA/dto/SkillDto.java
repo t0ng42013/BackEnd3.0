@@ -12,6 +12,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SkillDto implements Serializable {
+    private Long id;
     @NotBlank
     private String nombre;
     @NotBlank

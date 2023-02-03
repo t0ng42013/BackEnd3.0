@@ -5,6 +5,7 @@ import com.portfolio.LGA.dto.Mensaje;
 import com.portfolio.LGA.dto.SkillDto;
 import com.portfolio.LGA.model.Skill;
 import io.micrometer.common.util.StringUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,30 +17,31 @@ import java.util.List;
 @RequestMapping("/api/skill")
 @CrossOrigin(origins = {"https://lga-portfolio.web.app/","http://localhost:4200"})
 public class SkillController {
+    private final ISkillService skillService;
+    private final ModelMapper modelMapper;
     @Autowired
-    private ISkillService skillService;
-
+    public SkillController(ISkillService skillService, ModelMapper modelMapper) {
+        this.skillService = skillService;
+        this.modelMapper = modelMapper;
+    }
     @GetMapping("/lista")
-    public ResponseEntity<List<Skill>> verSkill() {
-        List<Skill> skills = skillService.verSkill();
-        return new ResponseEntity(skills, HttpStatus.OK);
+    public ResponseEntity<List<SkillDto>> verSkill() {
+        List<SkillDto> skillsDtos = skillService.verSkill();
+        return new ResponseEntity(skillsDtos, HttpStatus.OK);
     }
 
     @PostMapping("/crear")
-    public ResponseEntity<?> crear(@RequestBody SkillDto skillDto) {
+    public ResponseEntity<SkillDto> crear(@RequestBody SkillDto skillDto) {
         if (StringUtils.isBlank(skillDto.getNombre())) {
             return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
         }
-        Skill skill = new Skill(
-                skillDto.getNombre(),
-                skillDto.getPorcentaje());
-        skillService.crearSkill(skill);
+        skillService.crearSkill(skillDto);
         return new ResponseEntity(new Mensaje("Skill creado"), HttpStatus.CREATED);
     }
 
     @PutMapping("/editar")
-    public ResponseEntity<?> editarSkill(@RequestBody Skill skill) {
-        skillService.editaSkill(skill);
+    public ResponseEntity<SkillDto> editarSkill(@RequestBody SkillDto skillDto) {
+        skillService.editaSkill(skillDto);
         return new ResponseEntity(new Mensaje("Skill editado"), HttpStatus.OK);
     }
 
@@ -52,7 +54,8 @@ public class SkillController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void borrarSkill(@PathVariable Long id){
+    public ResponseEntity<Void> borrarSkill(@PathVariable Long id){
         skillService.borrarSkill(id);
+        return new ResponseEntity(new Mensaje("Skill borrado"), HttpStatus.OK);
     }
 }
